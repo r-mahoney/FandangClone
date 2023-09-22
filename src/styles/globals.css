@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-color: lightgrey;
+}
+
+#__next {
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+}
+
+.heading-style-stub {
+  position: relative;
+  display: inline-block;
+  padding: 5px 30px;
+  border-bottom: 10px solid #4c4c4c;
+  color: #4c4c4c;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.heading-style-stub:after {
+  position: absolute;
+  right: 0;
+  bottom: -15px;
+  left: 0;
+  display: block;
+  margin: auto;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: lightgray;
+  content: "";
+}
+
+.body {
+  min-height: 100vh;
+  background: white;
+}
