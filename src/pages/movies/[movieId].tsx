@@ -48,18 +48,21 @@ const movieDetails = () => {
       <div className="flex px-5">
         <div className="flex-[3_3_0%] py-5">
           {data && <SingleFilmPage film={data} />}
-          <div className="flex">
+          <div className="flex mt-3">
             {movieDates.map((date, index) => (
               <DateButton
                 date={date}
                 onClick={(e) => {
                   changeDate(e, date);
+                  document.querySelectorAll(".movieTimes")?.forEach(node => {
+                    node.classList.remove("active-movie-date")
+                  }) 
+                  e.currentTarget.classList.add("active-movie-date")
                 }}
                 key={index}
               />
             ))}
           </div>
-          <p>{date}</p>
           {cinemas.map((cinema, idx) => (
             <section
               className={`my-4 rounded-lg border border-solid border-gray-300 p-4 ${

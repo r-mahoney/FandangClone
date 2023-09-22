@@ -15,7 +15,7 @@ const DateButton: React.FC<DateButtonProps> = ({
 }: DateButtonProps) => {
   return (
     <div className="mr-3 flex h-20 w-20 flex-col border border-red-400">
-      <button {...props}>
+      <button {...props} className={`movieTimes ${date.day === "Today" ? "active-movie-date" : null} h-fit`}>
         <p>{date.day}</p>
         <p>{date.month}</p>
         <p>{date.date}</p>
