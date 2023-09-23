@@ -18,6 +18,20 @@ export default function getDefaultCinemaTimes(film: Film) {
             },
           ],
         },
+        "3D": {
+          film_id: film.film_id,
+          film_name: film.film_name,
+          times: [
+            {
+              start_time: "20:40",
+              end_time: "23:04",
+            },
+            {
+              start_time: "21:20",
+              end_time: "23:44",
+            },
+          ],
+        },
       },
     },
     {
@@ -72,6 +86,34 @@ export default function getDefaultCinemaTimes(film: Film) {
             },
           ],
         },
+        "3D": {
+          film_id: film.film_id,
+          film_name: film.film_name,
+          times: [
+            {
+              start_time: "20:40",
+              end_time: "23:04",
+            },
+            {
+              start_time: "21:20",
+              end_time: "23:44",
+            },
+          ],
+        },
+        'IMAX': {
+          film_id: film.film_id,
+          film_name: film.film_name,
+          times: [
+            {
+              start_time: "20:40",
+              end_time: "23:04",
+            },
+            {
+              start_time: "21:20",
+              end_time: "23:44",
+            },
+          ],
+        },
       },
     },
     {
@@ -112,9 +154,37 @@ export default function getDefaultCinemaTimes(film: Film) {
             },
           ],
         },
+        "3D": {
+          film_id: film.film_id,
+          film_name: film.film_name,
+          times: [
+            {
+              start_time: "20:40",
+              end_time: "23:04",
+            },
+            {
+              start_time: "21:20",
+              end_time: "23:44",
+            },
+          ],
+        },
+        'IMAX': {
+          film_id: film.film_id,
+          film_name: film.film_name,
+          times: [
+            {
+              start_time: "20:40",
+              end_time: "23:04",
+            },
+            {
+              start_time: "21:20",
+              end_time: "23:44",
+            },
+          ],
+        },
       },
     },
   ];
 
-  return cinemaObj;
+  return {cinemas: cinemaObj};
 }

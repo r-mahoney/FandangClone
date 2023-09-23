@@ -1,4 +1,4 @@
-interface ShowTimes {
+export interface ShowTimes {
   start_time: number;
   end_time: number;
 }

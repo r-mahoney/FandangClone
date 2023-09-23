@@ -7,16 +7,15 @@ import { Film } from "~/Types/movieTypes";
 import getDefaultCinemaTimes from "~/utils/defaultCinemas";
 import { today, getNextSeven } from "~/utils/dates";
 import DateButton from "~/Components/DateButton";
-import { MovieDate } from "~/Types/dateType";
 
 const movieDetails = () => {
-  const router = useRouter();
-  const movieId = router.query.movieId;
   const { movies } = useContext(MoviesContext);
-  const data = movies.filter((movie) => movie.film_id == movieId)[0];
-  const [date, setDate] = useState<string>(today());
-  const movieDates = getNextSeven(today());
   const [cinemas, setCinemas] = useState<any[]>([]);
+  const router = useRouter();
+  const queryDate = router.query.date;
+  const movieId = router.query.movieId;
+  const data = movies.filter((movie) => movie.film_id == movieId)[0];
+  const movieDates = getNextSeven(today());
   const options = {
     method: "GET",
     headers: {
@@ -34,15 +33,17 @@ const movieDetails = () => {
     if (!router.isReady) return;
     if (!data) return;
     (async function () {
-      const response = await getCinemaTimes(options, movieId as string, data);
-      setCinemas(response);
+      const response = await getCinemaTimes(options, movieId as string, data, queryDate as string);
+      setCinemas(response.cinemas)
     })();
-  }, [router.isReady, movieId, data]);
+    router.push({
+      pathname: `/movies/${movieId}`,
+      query: {
+        date: queryDate || today(),
+      },
+    }, undefined, {scroll: false});
+  }, [router.isReady, movieId, data, queryDate]);
 
-  function changeDate(e: any, date: MovieDate) {
-    e.preventDefault();
-    setDate(date.dateString!)
-  }
   return (
     <div className="body">
       <div className="flex px-5">
@@ -52,12 +53,17 @@ const movieDetails = () => {
             {movieDates.map((date, index) => (
               <DateButton
                 date={date}
+                queryDate={queryDate as string}
                 onClick={(e) => {
-                  changeDate(e, date);
+                  router.push({
+                    pathname: `/movies/${movieId}`,
+                    query: {
+                      date: date.dateString,
+                    },
+                  }, undefined, { scroll: false });
                   document.querySelectorAll(".movieTimes")?.forEach(node => {
                     node.classList.remove("active-movie-date")
-                  }) 
-                  e.currentTarget.classList.add("active-movie-date")
+                  })
                 }}
                 key={index}
               />
@@ -84,14 +90,15 @@ export async function getCinemaTimes(
   options: object,
   movieId: string,
   film: Film,
+  date: string
 ) {
   try {
     // const response = await fetch(
-    //   `https://api-gate2.movieglu.com/filmShowTimes/?film_id=${movieId}&date=2023-09-21&n=10`,
+    //   `https://api-gate2.movieglu.com/filmShowTimes/?film_id=${movieId}&date=${date}&n=10`,
     //   options,
     // );
     // const data = await response.json();
-    // return data.cinemas;
+    // return data;
 
     //CAN MAYBE DO ANOTHER API CALL FOR FILM DETAILS TO GET RATINGS/FILM DURATION/GENRE
     //WOULD BE GOOD IF I EVER PAY AND THIS GOES FULL PROD

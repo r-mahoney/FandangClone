@@ -41,6 +41,7 @@ body {
 }
 
 .active-movie-date {
-  background-color: blue;
-  height: inherit;
+  background-color: #3478c1;
+  border-color: #3478c1;
+  color: white;
 }
