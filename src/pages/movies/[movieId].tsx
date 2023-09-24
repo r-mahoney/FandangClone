@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import SingleFilmPage from "~/Components/SingleFilmPage";
+import DateButton from "~/Components/DateButton";
 import FilmTimes from "~/Components/FilmTimes";
+import NewCommentForm from "~/Components/NewCommentForm";
+import SingleFilmPage from "~/Components/SingleFilmPage";
 import MoviesContext from "~/Contexts/MovieContext";
 import { Film } from "~/Types/movieTypes";
+import { getNextSeven, today } from "~/utils/dates";
 import getDefaultCinemaTimes from "~/utils/defaultCinemas";
-import { today, getNextSeven } from "~/utils/dates";
-import DateButton from "~/Components/DateButton";
 
 const movieDetails = () => {
   const { movies } = useContext(MoviesContext);
@@ -14,7 +15,7 @@ const movieDetails = () => {
   const router = useRouter();
   const queryDate = router.query.date;
   const movieId = router.query.movieId;
-  const data = movies.filter((movie) => movie.film_id == movieId)[0];
+  const data = movies.filter((movie) => movie.film_id == movieId)[0] as Film;
   const movieDates = getNextSeven(today());
   const options = {
     method: "GET",
@@ -33,37 +34,54 @@ const movieDetails = () => {
     if (!router.isReady) return;
     if (!data) return;
     (async function () {
-      const response = await getCinemaTimes(options, movieId as string, data, queryDate as string);
-      setCinemas(response.cinemas)
+      const response = await getCinemaTimes(
+        options,
+        movieId as string,
+        data,
+        queryDate as string,
+      );
+      setCinemas(response.cinemas);
     })();
-    router.push({
-      pathname: `/movies/${movieId}`,
-      query: {
-        date: queryDate || today(),
+    router.push(
+      {
+        pathname: `/movies/${movieId}`,
+        query: {
+          date: queryDate || today(),
+        },
       },
-    }, undefined, {scroll: false});
+      undefined,
+      { scroll: false },
+    );
   }, [router.isReady, movieId, data, queryDate]);
 
   return (
     <div className="body">
       <div className="flex px-5">
         <div className="flex-[3_3_0%] py-5">
-          {data && <SingleFilmPage film={data} />}
-          <div className="flex mt-3">
+          {data && (
+            <>
+              <SingleFilmPage film={data} />
+            </>
+          )}
+          <div className="mt-3 flex">
             {movieDates.map((date, index) => (
               <DateButton
                 date={date}
                 queryDate={queryDate as string}
-                onClick={(e) => {
-                  router.push({
-                    pathname: `/movies/${movieId}`,
-                    query: {
-                      date: date.dateString,
+                onClick={() => {
+                  router.push(
+                    {
+                      pathname: `/movies/${movieId}`,
+                      query: {
+                        date: date.dateString,
+                      },
                     },
-                  }, undefined, { scroll: false });
-                  document.querySelectorAll(".movieTimes")?.forEach(node => {
-                    node.classList.remove("active-movie-date")
-                  })
+                    undefined,
+                    { scroll: false },
+                  );
+                  document.querySelectorAll(".movieTimes")?.forEach((node) => {
+                    node.classList.remove("active-movie-date");
+                  });
                 }}
                 key={index}
               />
@@ -80,7 +98,9 @@ const movieDetails = () => {
             </section>
           ))}
         </div>
-        <div className="flex-1"></div>
+        <div className="flex-[2_2_0%]">
+          {data && <NewCommentForm movieName={data.film_name} />}
+        </div>
       </div>
     </div>
   );
@@ -90,7 +110,7 @@ export async function getCinemaTimes(
   options: object,
   movieId: string,
   film: Film,
-  date: string
+  date: string,
 ) {
   try {
     // const response = await fetch(

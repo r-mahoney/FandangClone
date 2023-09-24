@@ -1,5 +1,6 @@
 import React from "react";
 import { Cinema } from "~/Types/cinemaTypes";
+import ShowType from "./ShowType";
 
 type FilmtimesProps = {
   cinema: Cinema;
@@ -13,12 +14,13 @@ const FilmTimes: React.FC<FilmtimesProps> = ({ cinema }) => {
           {cinema.distance.toFixed(2)} <span className="text-[8pt]">mi</span>
         </p>
       </div>
-      <p className="font-bold">{cinema.cinema_name}</p>
+      <p className="font-bold pb-6">{cinema.cinema_name}</p>
       <div>
-        {cinema.showings.Standard.times.map((showtime, idx) => (
+        {Object.keys(cinema.showings).map((showType, idx) => (
           <div key={idx}>
-            <p>Starting at: {showtime.start_time}</p>
-          </div >
+            <p className="font-bold pb-3">{showType}</p>
+            <ShowType cinema={cinema} showType={showType} />
+          </div>
         ))}
       </div>
     </>
