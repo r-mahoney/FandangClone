@@ -1,13 +1,13 @@
-import React, {
+import { useSession } from "next-auth/react";
+import {
   FormEvent,
   useCallback,
   useLayoutEffect,
   useRef,
   useState,
 } from "react";
-import { useSession } from "next-auth/react";
-import RatingsButton from "./RatingsButton";
 import { api } from "~/utils/api";
+import RatingsButton from "./RatingsButton";
 
 const ratings = [1, 2, 3, 4, 5];
 
@@ -20,7 +20,8 @@ function updateTextAreaSize(textArea?: HTMLTextAreaElement) {
 export function Form({ movieName }: { movieName: string }) {
   const session = useSession();
   const [inputValue, setInputValue] = useState("");
-  const [movieRating, setMovieRating] = useState(5);
+  const [movieRating, setMovieRating] = useState(0);
+  const [errors, setError] = useState("")
   const textAreaRef = useRef<HTMLTextAreaElement>();
   const inputRef = useCallback((textArea: HTMLTextAreaElement) => {
     updateTextAreaSize(textArea);
@@ -33,7 +34,7 @@ export function Form({ movieName }: { movieName: string }) {
   const createComment = api.comment.createComment.useMutation({
     onSuccess: () => {
       setInputValue("");
-      setMovieRating(5);
+      setMovieRating(0);
       comments.refetch();
     },
   });
@@ -42,11 +43,15 @@ export function Form({ movieName }: { movieName: string }) {
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    createComment.mutate({
-      content: inputValue,
-      movieName,
-      rating: movieRating,
-    });
+    try {
+      createComment.mutate({
+        content: inputValue,
+        movieName,
+        rating: movieRating,
+      });
+    } catch (error: any) {
+      setError(error.message)
+    }
   }
 
   function handleClick(e: FormEvent) {

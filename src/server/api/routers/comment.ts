@@ -1,10 +1,7 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const commentsRouter = createTRPCRouter({
   createComment: publicProcedure
@@ -16,12 +13,25 @@ export const commentsRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ input: { content, movieName, rating }, ctx }) => {
-      const comment = await ctx.db.comment.create({
-        //@ts-ignore
-        data: { content, movieName, rating, userId: ctx.session.user.id },
-      });
+      if (content && rating) {
+        const comment = await ctx.db.comment.create({
+          //@ts-ignore
+          data: { content, movieName, rating, userId: ctx.session.user.id },
+        });
 
-      return comment;
+        return comment;
+      } else {
+        if (!content) {
+          throw new Error("Review must include text");
+        }
+        if (!rating) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Review must include a rating from 1-5.",
+            // optional: pass the original error to retain stack trace
+          });
+        }
+      }
     }),
   getMovieComments: publicProcedure
     .input(
