@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import DateButton from "~/Components/DateButton";
 import FilmTimes from "~/Components/FilmTimes";
-import NewCommentForm from "~/Components/NewCommentForm";
+import Comments from "~/Components/Comments";
 import SingleFilmPage from "~/Components/SingleFilmPage";
 import MoviesContext from "~/Contexts/MovieContext";
 import { Film } from "~/Types/movieTypes";
@@ -98,8 +98,8 @@ const movieDetails = () => {
             </section>
           ))}
         </div>
-        <div className="flex-[2_2_0%]">
-          {data && <NewCommentForm movieName={data.film_name} />}
+        <div className="hidden md:block flex-[2_2_0%]">
+          {data && <Comments movieName={data.film_name} />}
         </div>
       </div>
     </div>

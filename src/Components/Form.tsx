@@ -8,6 +8,7 @@ import React, {
 import { useSession } from "next-auth/react";
 import RatingsButton from "./RatingsButton";
 import { api } from "~/utils/api";
+
 const ratings = [1, 2, 3, 4, 5];
 
 function updateTextAreaSize(textArea?: HTMLTextAreaElement) {
@@ -16,18 +17,7 @@ function updateTextAreaSize(textArea?: HTMLTextAreaElement) {
   textArea.style.height = `${textArea.scrollHeight}px`;
 }
 
-type NewTweetFormProps = {
-  movieName: string;
-};
-
-const NewTweetForm: React.FC<NewTweetFormProps> = ({ movieName }) => {
-  const session = useSession();
-  if (session.status !== "authenticated") return;
-
-  return <Form movieName={movieName} />;
-};
-
-function Form({ movieName }: { movieName: string }) {
+export function Form({ movieName }: { movieName: string }) {
   const session = useSession();
   const [inputValue, setInputValue] = useState("");
   const [movieRating, setMovieRating] = useState(5);
@@ -90,6 +80,9 @@ function Form({ movieName }: { movieName: string }) {
           <div className="flex pl-[16px]">
             {ratings.map((rating) => (
               <RatingsButton
+                className={`mr-1 flex aspect-square h-6 rounded-full text-center text-white ${
+                  rating === movieRating ? " bg-[#FF7300]" : "bg-slate-500"
+                }`}
                 rating={rating}
                 key={rating}
                 onClick={handleClick}
@@ -109,4 +102,3 @@ function Form({ movieName }: { movieName: string }) {
     </>
   );
 }
-export default NewTweetForm;

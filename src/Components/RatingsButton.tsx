@@ -14,7 +14,6 @@ const RatingsButton: React.FC<RatingsButtonProps> = ({
 }: RatingsButtonProps) => {
   return (
     <button
-      className="mr-1 flex aspect-square h-6 rounded-full bg-[#FF7300] text-center text-white"
       {...props}
     >
       <p className="mx-auto my-0 font-bold">{rating}</p>
