@@ -8,6 +8,8 @@ import {
 } from "react";
 import { api } from "~/utils/api";
 import RatingsButton from "./RatingsButton";
+import { error } from "console";
+import { SingleComment } from "./SingleComment";
 
 const ratings = [1, 2, 3, 4, 5];
 
@@ -35,23 +37,23 @@ export function Form({ movieName }: { movieName: string }) {
     onSuccess: () => {
       setInputValue("");
       setMovieRating(0);
+      setError("")
       comments.refetch();
     },
+    onError: (error: any) => {
+        setError(error.message)
+    }
   });
 
   const comments = api.comment.getMovieComments.useQuery({ movieName });
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    try {
       createComment.mutate({
         content: inputValue,
         movieName,
         rating: movieRating,
       });
-    } catch (error: any) {
-      setError(error.message)
-    }
   }
 
   function handleClick(e: FormEvent) {
@@ -66,8 +68,9 @@ export function Form({ movieName }: { movieName: string }) {
 
   return (
     <>
+    {errors && <p>{errors}</p>}
       <form
-        className="flex flex-col gap-2 border-b px-4 py-2"
+        className="flex flex-col gap-2 border-b px-4 py-2 mb-8"
         onSubmit={handleSubmit}
       >
         <div className="flex gap-4">
@@ -78,7 +81,7 @@ export function Form({ movieName }: { movieName: string }) {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             className="flex-grow resize-none overflow-hidden p-4 text-lg outline-none"
-            placeholder="What's happening?"
+            placeholder="Leave a review."
           />
         </div>
         <div className="flex">
@@ -99,10 +102,8 @@ export function Form({ movieName }: { movieName: string }) {
         </div>
       </form>
       {comments &&
-        comments.data?.map((movie, idx) => (
-          <p key={idx}>
-            {movie.content} rating: {movie.rating}
-          </p>
+        comments.data?.map((comment, idx) => (
+          <SingleComment comment={comment} key={idx}/>
         ))}
     </>
   );

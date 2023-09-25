@@ -16,13 +16,17 @@ export const commentsRouter = createTRPCRouter({
       if (content && rating) {
         const comment = await ctx.db.comment.create({
           //@ts-ignore
-          data: { content, movieName, rating, userId: ctx.session.user.id },
+          data: { content, movieName, rating, userId: ctx.session.user.id, userName: ctx.session?.user.name },
         });
 
         return comment;
       } else {
         if (!content) {
-          throw new Error("Review must include text");
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Review must include text.",
+            // optional: pass the original error to retain stack trace
+          });
         }
         if (!rating) {
           throw new TRPCError({

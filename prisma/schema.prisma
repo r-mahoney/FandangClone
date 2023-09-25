@@ -17,6 +17,7 @@ datasource db {
 model Comment {
     id        String   @id @default(uuid())
     userId    String
+    userName  String
     content   String
     createdAt DateTime @default(now())
     movieName String
