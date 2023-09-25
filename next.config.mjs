@@ -24,6 +24,10 @@ const config = {
         protocol: "https",
         hostname: "image.movieglu.com",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.discordapp.com",
+      },
     ],
   },
 };

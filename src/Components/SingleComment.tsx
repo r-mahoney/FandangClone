@@ -5,9 +5,10 @@ import Stars from "./Stars";
 
 type SingleCommentProps = {
   comment: OneComment;
+  index: number
 };
 
-export const SingleComment: React.FC<SingleCommentProps> = ({ comment }) => {
+export const SingleComment: React.FC<SingleCommentProps> = ({ comment, index }) => {
   const session = useSession();
   const image = session.data?.user.image;
   const monthString = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -21,14 +22,11 @@ export const SingleComment: React.FC<SingleCommentProps> = ({ comment }) => {
     return (`${day} ${monthString[month]} ${year} at ${time}`)
   }
   return (
-    <div className="flex justify-center pl-2">
+    <div className={`flex justify-center pl-2 ${session.status !== "authenticated" && index === 0 ? "pt-8" : ""}`}>
       <div className="relative mb-8 grid w-full grid-cols-1 gap-4 rounded-lg border bg-white p-4 shadow-lg">
         <div className="relative flex gap-4">
           <img
-            src={
-              image
-                ? image
-                : "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/charlie-chaplin-icon.png"
+            src={"https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/charlie-chaplin-icon.png"
             }
             className="relative -top-8 -mb-4 h-20 w-20 rounded-lg border bg-white"
             alt=""

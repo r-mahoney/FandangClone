@@ -17,7 +17,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
     } else {
       router.push("search?movie=" + input);
     }
-    setInput("")
+    setInput("");
   }
 
   return (
@@ -25,6 +25,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
       <div className="relative w-full">
         <div>
           <input
+            id="_search_bar"
             className="text-sm[16px] w-full rounded-full border-0 px-5 py-2"
             type="search"
             placeholder="Search"

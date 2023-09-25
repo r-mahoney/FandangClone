@@ -15,8 +15,14 @@ export const commentsRouter = createTRPCRouter({
     .mutation(async ({ input: { content, movieName, rating }, ctx }) => {
       if (content && rating) {
         const comment = await ctx.db.comment.create({
-          //@ts-ignore
-          data: { content, movieName, rating, userId: ctx.session.user.id, userName: ctx.session?.user.name },
+          data: {
+            content,
+            movieName,
+            rating,
+            //@ts-ignore
+            userId: ctx.session.user.id,
+            userName: ctx.session?.user.name!,
+          },
         });
 
         return comment;
@@ -51,5 +57,25 @@ export const commentsRouter = createTRPCRouter({
           })
           .parse(input),
       });
+    }),
+  getAverageRating: publicProcedure
+    .input(
+      z.object({
+        movieName: z.string(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const rating = await ctx.db.comment.aggregate({
+        _avg: {
+          rating: true,
+        },
+        where: z
+          .object({
+            movieName: z.string(),
+          })
+          .parse(input),
+      });
+
+      return rating._avg.rating
     }),
 });

@@ -7,8 +7,6 @@ type CommentProps = {
 };
 
 const Comments: React.FC<CommentProps> = ({ movieName }) => {
-  const session = useSession();
-  if (session.status !== "authenticated") return;
 
   return <Form movieName={movieName} />;
 };

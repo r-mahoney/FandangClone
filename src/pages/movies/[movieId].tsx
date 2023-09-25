@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
+import Comments from "~/Components/Comments";
 import DateButton from "~/Components/DateButton";
 import FilmTimes from "~/Components/FilmTimes";
-import Comments from "~/Components/Comments";
 import SingleFilmPage from "~/Components/SingleFilmPage";
 import MoviesContext from "~/Contexts/MovieContext";
 import { Film } from "~/Types/movieTypes";
@@ -57,7 +57,7 @@ const movieDetails = () => {
   return (
     <div className="body">
       <div className="flex px-5">
-        <div className="flex-[3_3_0%] py-5">
+        <div className="flex-[3_3_0%] overflow-auto py-5">
           {data && (
             <>
               <SingleFilmPage film={data} />
@@ -90,7 +90,7 @@ const movieDetails = () => {
           {cinemas.map((cinema, idx) => (
             <section
               className={`my-4 rounded-lg border border-solid border-gray-300 p-4 ${
-                idx === cinemas.length - 1 ? "mb-0" : null
+                idx === cinemas.length - 1 ? "mb-0" : ""
               }`}
               key={cinema.cinema_id}
             >
@@ -98,7 +98,7 @@ const movieDetails = () => {
             </section>
           ))}
         </div>
-        <div className="hidden md:block flex-[2_2_0%]">
+        <div className="hidden flex-[2_2_0%] md:block">
           {data && <Comments movieName={data.film_name} />}
         </div>
       </div>
