@@ -102,12 +102,12 @@ export async function getCinemaTimes(
   date: string,
 ) {
   try {
-    // const response = await fetch(
-    //   `https://api-gate2.movieglu.com/filmShowTimes/?film_id=${movieId}&date=${date}&n=10`,
-    //   options,
-    // );
-    // const data = await response.json();
-    // return data;
+    const response = await fetch(
+      `https://api-gate2.movieglu.com/filmShowTimes/?film_id=${movieId}&date=${date}&n=10`,
+      options,
+    );
+    const data = await response.json();
+    return data;
 
     //CAN MAYBE DO ANOTHER API CALL FOR FILM DETAILS TO GET RATINGS/FILM DURATION/GENRE
     //WOULD BE GOOD IF I EVER PAY AND THIS GOES FULL PROD

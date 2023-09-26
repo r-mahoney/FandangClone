@@ -1,4 +1,9 @@
-import React, { useEffect } from "react";
+import React, {
+  ButtonHTMLAttributes,
+  FormEvent,
+  useEffect,
+  useState,
+} from "react";
 import { Film } from "~/Types/movieTypes";
 import Image from "next/image";
 import Trailer from "./Trailer";
@@ -16,6 +21,12 @@ const SingleFilmPage: React.FC<SingleFilmPageProps> = ({ film }) => {
     movieName: film.film_name,
   });
   const avgRating = avgRatingCall.data;
+
+  const [expanded, setExpanded] = useState(false);
+  const handleClick = (e: FormEvent) => {
+    e.preventDefault();
+    setExpanded((prevValue) => !prevValue);
+  };
   useEffect(() => {
     avgRatingCall.refetch();
   }, [comments.data?.length]);
@@ -38,11 +49,18 @@ const SingleFilmPage: React.FC<SingleFilmPageProps> = ({ film }) => {
             <Trailer film={film} />
           </div>
         </div>
-        <div className="flex justify-between">
+        <div className="my-4 flex justify-between">
           <h1 className="text-lg font-bold uppercase">{film.film_name}</h1>
           <p>Community Rating: {avgRating?.toFixed(1) || "No Ratings Yet"}</p>
         </div>
-        <p>{film.synopsis_long}</p>
+        <p className={expanded ? "w-full whitespace-normal" : "w-[70%] overflow-hidden text-ellipsis whitespace-nowrap"}>
+          {film.synopsis_long}
+        </p>
+        <div className="flex justify-end">
+          <button onClick={handleClick}>
+            {expanded ? "Hide Details" : "Show More"}
+          </button>
+        </div>
       </section>
     </>
   );
