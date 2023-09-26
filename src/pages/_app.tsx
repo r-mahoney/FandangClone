@@ -9,6 +9,7 @@ import "~/styles/globals.css";
 import Header from "~/Components/Header";
 import { useState, useEffect } from "react";
 import getDefaultMovies from "~/utils/defaultMovies";
+import getOptions from "~/utils/headers";
 
 export const BASE_URL = "https://api-gate2.movieglu.com/";
 
@@ -58,18 +59,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     setMovies(data)
   }, []);
 
-  const options = {
-    method: "GET",
-    headers: {
-      client: "MOVI_189",
-      "x-api-key": "xTfflwuIm54fE6tKkbwPNaIQt1RCVI4x9vfSxcDf",
-      authorization: "Basic TU9WSV8xODlfWFg6a25TN1R5TUdBeTVG",
-      territory: "XX",
-      "api-version": "v200",
-      geolocation: "-22.0;14.0",
-      "device-datetime": new Date().toISOString(),
-    },
-  };
+  const options = getOptions()
   return (
     <SessionProvider session={session}>
       <Header />

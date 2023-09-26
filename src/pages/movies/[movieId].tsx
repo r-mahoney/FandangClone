@@ -8,6 +8,7 @@ import MoviesContext from "~/Contexts/MovieContext";
 import { Film } from "~/Types/movieTypes";
 import { getNextSeven, today } from "~/utils/dates";
 import getDefaultCinemaTimes from "~/utils/defaultCinemas";
+import getOptions from "~/utils/headers";
 
 const movieDetails = () => {
   const { movies } = useContext(MoviesContext);
@@ -17,19 +18,7 @@ const movieDetails = () => {
   const movieId = router.query.movieId;
   const data = movies.filter((movie) => movie.film_id == movieId)[0] as Film;
   const movieDates = getNextSeven(today());
-  const options = {
-    method: "GET",
-    headers: {
-      client: "MOVI_189",
-      "x-api-key": "xTfflwuIm54fE6tKkbwPNaIQt1RCVI4x9vfSxcDf",
-      authorization: "Basic TU9WSV8xODlfWFg6a25TN1R5TUdBeTVG",
-      territory: "XX",
-      "api-version": "v200",
-      geolocation: "-22.0;14.0",
-      "device-datetime": new Date().toISOString(),
-    },
-  };
-
+  const options = getOptions()
   useEffect(() => {
     if (!router.isReady) return;
     if (!data) return;
