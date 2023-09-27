@@ -16,7 +16,7 @@ const TimeButton: React.FC<TimeButtonProps> = ({
   const now = date.getHours() + ":" + date.getMinutes();
   return (
     <button
-      className={`mr-2 h-[35px] w-[78px] rounded-md ${
+      className={`mr-2 h-[35px] w-[78px] rounded-md mb-2 ${
         time > now ? "bg-[#FF7300]" : "bg-[#999ea3]"
       }`}
       disabled={time < now}

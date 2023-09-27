@@ -9,7 +9,7 @@ type ShowTypeProps = {
 
 const ShowType: React.FC<ShowTypeProps> = ({ showType, cinema }) => {
   return (
-    <div className="flex pb-[12px]">
+    <div className="flex pb-[12px] flex-wrap">
       {/* @ts-ignore */}
       {cinema.showings[showType].times.map((time, idx) => (
         <TimeButton time={time.start_time} onClick={() => {}} key={idx} />
