@@ -62,21 +62,38 @@ export function Form({ movieName }: { movieName: string }) {
     setMovieRating(value);
   }
 
+  const deleteComment = api.comment.deleteComment.useMutation({
+    onSuccess: () => {
+      console.log("deleted");
+      comments.refetch();
+    },
+    onError: (error:any) => {
+      console.log("delete comment error")
+    }
+  });
+
+  const handleDelete = (commentId: string) => {
+    deleteComment.mutate({
+      id: commentId
+    });
+  };
+
   // if (session.status !== "authenticated") return;
   // const imageSrc = session.data.user.image;
 
   return (
     <>
-      {errors && <p>{errors}</p>}
       {session.status === "authenticated" && (
         <form
-          className="mb-8 flex flex-col gap-2 border-b px-4 py-2"
+          className={`${
+            errors ? "mb-2" : "mb-8"
+          } flex flex-col gap-2 border-b px-4 py-2`}
           onSubmit={handleSubmit}
         >
           <div className="flex gap-4">
             {/* <ProfileImage src={imageSrc} /> */}
             <textarea
-            id="_comment_box"
+              id="_comment_box"
               ref={inputRef}
               style={{ height: 0 }}
               value={inputValue}
@@ -86,7 +103,7 @@ export function Form({ movieName }: { movieName: string }) {
             />
           </div>
           <div className="flex">
-            <div className="flex items-center lg:items-end pl-[16px]">
+            <div className="flex items-center pl-[16px] lg:items-end">
               {ratings.map((rating) => (
                 <RatingsButton
                   className={`mr-1 flex aspect-square h-6 rounded-full text-center text-white ${
@@ -105,9 +122,14 @@ export function Form({ movieName }: { movieName: string }) {
           </div>
         </form>
       )}
+      {errors && (
+        <div className="mx-3 mb-8 rounded-md border border-solid border-red-500 bg-red-400 py-3">
+          <p className="text-center">{errors}</p>
+        </div>
+      )}
       {comments &&
         comments.data?.map((comment, idx) => (
-          <SingleComment comment={comment} key={idx} index={idx} />
+          <SingleComment comment={comment} key={idx} index={idx} handleDelete={handleDelete}/>
         ))}
     </>
   );

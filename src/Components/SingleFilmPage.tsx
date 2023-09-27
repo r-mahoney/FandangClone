@@ -36,16 +36,28 @@ const SingleFilmPage: React.FC<SingleFilmPageProps> = ({ film }) => {
       <section className="rounded-lg border border-solid border-gray-300 p-4">
         <div className="flex justify-between">
           <div>
-            <Image
-              src={film.images.poster["1"].medium.film_image}
-              alt="Movie Poster"
-              height={film.images.poster["1"].medium.height}
-              width={film.images.poster["1"].medium.width}
-              priority
-              className="m-0 max-w-none rounded-md border border-solid border-gray-300"
-            />
+            {film.images.poster["1"] &&
+              <Image
+                src={film.images.poster["1"].medium.film_image}
+                alt="Movie Poster"
+                height={film.images.poster["1"].medium.height}
+                width={film.images.poster["1"].medium.width}
+                priority
+                className="m-0 max-w-none rounded-md border border-solid border-gray-300"
+              />
+            }
+            {!film.images.poster["1"] &&
+              <Image
+                src={"/defaultmovie.jpg"}
+                alt="No Movie Poster"
+                height={300}
+                width={200}
+                priority
+                className="m-0 max-w-none rounded-md border border-solid border-gray-300"
+              />
+            }
           </div>
-          <div>
+          <div className="flex flex-col items-end">
             <Trailer film={film} />
           </div>
         </div>
@@ -53,7 +65,13 @@ const SingleFilmPage: React.FC<SingleFilmPageProps> = ({ film }) => {
           <h1 className="text-lg font-bold uppercase">{film.film_name}</h1>
           <p>Community Rating: {avgRating?.toFixed(1) || "No Ratings Yet"}</p>
         </div>
-        <p className={expanded ? "w-full whitespace-normal" : "w-[70%] overflow-hidden text-ellipsis whitespace-nowrap"}>
+        <p
+          className={
+            expanded
+              ? "w-full whitespace-normal"
+              : "w-[70%] overflow-hidden text-ellipsis whitespace-nowrap"
+          }
+        >
           {film.synopsis_long}
         </p>
         <div className="flex justify-end">

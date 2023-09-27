@@ -34,6 +34,8 @@ const index: React.FC<indexProps> = ({ geolocation }) => {
     })();
   }, [search]);
 
+  console.log(films)
+
   return (
     <div className="body ">
       {search &&

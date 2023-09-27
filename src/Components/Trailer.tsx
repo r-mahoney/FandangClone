@@ -7,9 +7,12 @@ type TrailerProps = {
 
 const Trailer: React.FC<TrailerProps> = ({ film }) => {
   return (
-    <video controls width="600" className="hidden px-2 lg:block">
-      <source src={film.film_trailer} type="video/mp4" />
-    </video>
+    <>
+      {!film.film_trailer && <p className="px-2 text-red-400">No Trailer Available For This Film</p>}
+      <video controls width="600" className="hidden px-2 lg:block">
+        <source src={film.film_trailer} type="video/mp4" />
+      </video>
+    </>
   );
 };
 export default Trailer;

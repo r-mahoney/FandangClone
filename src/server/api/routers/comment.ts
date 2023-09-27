@@ -76,6 +76,21 @@ export const commentsRouter = createTRPCRouter({
           .parse(input),
       });
 
-      return rating._avg.rating
+      return rating._avg.rating;
+    }),
+  deleteComment: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      await ctx.db.comment.delete({
+        where: z
+          .object({
+            id: z.string(),
+          })
+          .parse(input),
+      });
     }),
 });
