@@ -18,29 +18,29 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   const [movies, setMovies] = useState<any[]>([]);
-  // const [geolocation, setGeoLocation] = useState("");
-  // useEffect(() => {
-  //   if ("geolocation" in navigator) {
-  //     // Prompt user for permission to access their location
-  //     navigator.geolocation.getCurrentPosition(
-  //       // Success callback function
-  //       (position) => {
-  //         // Get the user's latitude and longitude coordinates
-  //         const lat = position.coords.latitude;
-  //         const lng = position.coords.longitude;
-  //         setGeoLocation(`${lat};${lng}`);
-  //       },
-  //       // Error callback function
-  //       (error) => {
-  //         // Handle errors, e.g. user denied location sharing permissions
-  //         console.error("Error getting user location:", error);
-  //       },
-  //     );
-  //   } else {
-  //     // Geolocation is not supported by the browser
-  //     setGeoLocation("-22.0;14.0");
-  //   }
-  // }, []);
+  const [geolocation, setGeoLocation] = useState("");
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      // Prompt user for permission to access their location
+      navigator.geolocation.getCurrentPosition(
+        // Success callback function
+        (position) => {
+          // Get the user's latitude and longitude coordinates
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          setGeoLocation(`${lat};${lng}`);
+        },
+        // Error callback function
+        (error) => {
+          // Handle errors, e.g. user denied location sharing permissions
+          console.error("Error getting user location:", error);
+        },
+      );
+    } else {
+      // Geolocation is not supported by the browser
+      setGeoLocation("-22.0;14.0");
+    }
+  }, []);
 
   useEffect(() => {
     // (async () => {
@@ -64,7 +64,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <Header />
       <MoviesContext.Provider value={{movies}}>
-        <Component {...pageProps}/>
+        <Component {...pageProps} geolocation={geolocation}/>
       </MoviesContext.Provider>
     </SessionProvider>
   );

@@ -15,10 +15,10 @@ const FilmCard: React.FC<FilmCardProps> = ({ film, single }) => {
       className={single ? "w-min" : "flex flex-col bg-white"}
     >
       <Image
-        src={film.images.poster["1"].medium.film_image}
+        src={film.images.poster["1"] ? film.images.poster["1"].medium.film_image : '/defaultmovie.jpg'}
         alt="Movie Poster"
-        height={single ? film.images.poster["1"].medium.height : 250}
-        width={single ? film.images.poster["1"].medium.width : 100}
+        height={single && film.images.poster["1"] ? film.images.poster["1"].medium.height : 250}
+        width={single && film.images.poster["1"] ? film.images.poster["1"].medium.width : 100}
         style={{ objectFit: "contain" }}
         className={single ? "m-0 max-w-none" : "w-full"}
       />
