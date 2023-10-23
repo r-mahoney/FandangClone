@@ -30,6 +30,22 @@ model Comment {
     @@index([userId])
 }
 
+model Movie {
+    id                String @id @default(uuid())
+    film_name         String?
+    film_id           Int
+    film_length       String
+    genre             String
+    release_date      String
+    age_rating        String
+    age_rating_image  String
+    age_advisory      String
+    film_image        String
+    film_image_height Int
+    film_image_width  Int
+    synopsis_long     String?
+}
+
 model Like {
     userId    String
     commentId String

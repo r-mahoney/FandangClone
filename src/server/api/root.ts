@@ -1,4 +1,5 @@
 import { commentsRouter } from "~/server/api/routers/comment";
+import { moviesRouter } from "~/server/api/routers/movies";
 import { createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -8,6 +9,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   comment: commentsRouter,
+  movie: moviesRouter,
 });
 
 // export type definition of API

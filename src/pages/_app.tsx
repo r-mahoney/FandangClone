@@ -19,6 +19,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   const [movies, setMovies] = useState<any[]>([]);
   const [geolocation, setGeoLocation] = useState("");
+  
   useEffect(() => {
     if ("geolocation" in navigator) {
       // Prompt user for permission to access their location

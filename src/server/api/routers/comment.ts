@@ -46,7 +46,7 @@ export const commentsRouter = createTRPCRouter({
   getMovieComments: publicProcedure
     .input(
       z.object({
-        movieName: z.string(),
+        movieName: z.string().nullable(),
       }),
     )
     .query(async ({ input, ctx }) => {
@@ -61,7 +61,7 @@ export const commentsRouter = createTRPCRouter({
   getAverageRating: publicProcedure
     .input(
       z.object({
-        movieName: z.string(),
+        movieName: z.string().nullable(),
       }),
     )
     .query(async ({ input, ctx }) => {

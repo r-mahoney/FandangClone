@@ -6,50 +6,41 @@ import FilmTimes from "~/Components/FilmTimes";
 import SingleFilmPage from "~/Components/SingleFilmPage";
 import MoviesContext from "~/Contexts/MovieContext";
 import { Film } from "~/Types/movieTypes";
+import { api } from "~/utils/api";
 import { getNextSeven, today } from "~/utils/dates";
 import getDefaultCinemaTimes from "~/utils/defaultCinemas";
 import getOptions from "~/utils/headers";
 
 const movieDetails = () => {
-  const { movies } = useContext(MoviesContext);
   const [cinemas, setCinemas] = useState<any[]>([]);
   const router = useRouter();
   const queryDate = router.query.date;
   const movieId = router.query.movieId;
-  const data = movies.filter((movie) => movie.film_id == movieId)[0] as Film;
+  const foundMovie = api.movie.findMovie.useQuery({film_id: Number(movieId)}).data
   const movieDates = getNextSeven(today());
   const options = getOptions()
+
   useEffect(() => {
     if (!router.isReady) return;
-    if (!data) return;
+    if (!foundMovie) return;
     (async function () {
       const response = await getCinemaTimes(
         options,
         movieId as string,
-        data,
+        foundMovie,
         queryDate as string,
       );
       setCinemas(response.cinemas);
     })();
-    router.push(
-      {
-        pathname: `/movies/${movieId}`,
-        query: {
-          date: queryDate || today(),
-        },
-      },
-      undefined,
-      { scroll: false },
-    );
-  }, [router.isReady, movieId, data, queryDate]);
+  }, [router.isReady, movieId, foundMovie, queryDate]);
 
   return (
     <div className="body">
       <div className="flex px-5">
         <div className="flex-[3_3_0%] overflow-auto py-5">
-          {data && (
+          {foundMovie && (
             <>
-              <SingleFilmPage film={data} />
+              <SingleFilmPage film={foundMovie} />
             </>
           )}
           <div className="mt-3 flex">
@@ -88,7 +79,7 @@ const movieDetails = () => {
           ))}
         </div>
         <div className="hidden flex-[2_2_0%] md:block">
-          {data && <Comments movieName={data.film_name} />}
+          {foundMovie && <Comments movieName={foundMovie.film_name!} />}
         </div>
       </div>
     </div>

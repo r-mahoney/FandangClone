@@ -36,17 +36,17 @@ const SingleFilmPage: React.FC<SingleFilmPageProps> = ({ film }) => {
       <section className="rounded-lg border border-solid border-gray-300 p-4">
         <div className="flex justify-between">
           <div>
-            {film.images.poster["1"] &&
+            {film.film_image &&
               <Image
-                src={film.images.poster["1"].medium.film_image}
+                src={film.film_image}
                 alt="Movie Poster"
-                height={film.images.poster["1"].medium.height}
-                width={film.images.poster["1"].medium.width}
+                height={film.film_image_height}
+                width={film.film_image_width}
                 priority
                 className="m-0 max-w-none rounded-md border border-solid border-gray-300"
               />
             }
-            {!film.images.poster["1"] &&
+            {!film.film_image &&
               <Image
                 src={"/defaultmovie.jpg"}
                 alt="No Movie Poster"
