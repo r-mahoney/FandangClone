@@ -1,14 +1,12 @@
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
-import MoviesContext from "~/Contexts/MovieContext";
 
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
 import Header from "~/Components/Header";
 import { useState, useEffect } from "react";
-import getDefaultMovies from "~/utils/defaultMovies";
 import getOptions from "~/utils/headers";
 
 export const BASE_URL = "https://api-gate2.movieglu.com/";
@@ -17,7 +15,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
-  const [movies, setMovies] = useState<any[]>([]);
   const [geolocation, setGeoLocation] = useState("");
   
   useEffect(() => {
@@ -43,30 +40,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
     }
   }, []);
 
-  useEffect(() => {
-    // (async () => {
-    //   const data = await getData("filmsNowShowing/?n=25", options);
-    //   setMovies(data);
-    //   console.log(data);
-    // })();
-
-    /*
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    REMOVE BOTTOM CODE AND REPLACE WITH TOP CODE WHEN READY TO USE API INSTEAD OF STATIC DATA
-    VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    */
-   
-    const data = getDefaultMovies()
-    setMovies(data)
-  }, []);
-
   const options = getOptions()
   return (
     <SessionProvider session={session}>
       <Header />
-      <MoviesContext.Provider value={{movies}}>
         <Component {...pageProps} geolocation={geolocation}/>
-      </MoviesContext.Provider>
     </SessionProvider>
   );
 };

@@ -31,7 +31,7 @@ model Comment {
 }
 
 model Movie {
-    id                String @id @default(uuid())
+    id                String  @id @default(uuid())
     film_name         String?
     film_id           Int
     film_length       String
@@ -44,6 +44,15 @@ model Movie {
     film_image_height Int
     film_image_width  Int
     synopsis_long     String?
+}
+
+model Times {
+    id          String   @id @default(uuid())
+    film_name   String
+    cinema_name String
+    times       String[]
+    show_type   String
+    date        String
 }
 
 model Like {

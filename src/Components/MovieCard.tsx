@@ -8,39 +8,34 @@ type MovieCardProps = {
   movie: Movie;
 };
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+const MovieCard: React.FC<MovieCardProps> = ({
+  movie: { times, film_name, show_type },
+}) => {
   const moviesImagesObj = getImages();
-  const movieName = Object.keys(movie)[0];
   const foundMovieImage = moviesImagesObj.find(
-    (movie) => movie.movieName === movieName,
+    (movie) => movie.movieName === film_name,
   );
 
   const image = foundMovieImage?.image;
   return (
-    <div className="flex bg-white">
+    <div className="flex bg-white mb-2">
       <div className="flex flex-1">
         {
           <Image
             src={image ? image : "/defaultmovie.jpg"}
-            alt={`Photo for ${movieName}`}
+            alt={`Photo for ${film_name}`}
             height={205}
             width={134}
-            className="max-w-none max-h-[213px]"
+            className="max-h-[213px] max-w-none"
           />
         }
-        <h1>{movieName}</h1>
+        <h1>{film_name}</h1>
       </div>
       <div className="flex-[2] flex-wrap">
-        {movie[movieName as string] &&
-          Object.keys(movie[movieName as string]!).map((type: string, idx: number) => (
-            <div key={idx}>
-              <p>{type}</p>
-              {/* @ts-ignore */}
-              {movie[movieName][type].map((time: string, idx: number) => (
-                <TimeButton time={time} key={idx}/>
-              ))}
-            </div>
-          ))}
+        <p>{show_type}</p>
+        {times.map((time: string, idx: number) => (
+          <TimeButton time={time} key={idx} />
+        ))}
       </div>
     </div>
   );
