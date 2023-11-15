@@ -1,4 +1,4 @@
-export default function getOptions(geolocation: string =  "-22.0;14.0") {
+export default function getOptions(geolocation =  "-22.0;14.0") {
     //SANDBOX CREDENTIALS
 
     const options = {

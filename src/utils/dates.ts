@@ -25,7 +25,7 @@ const days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
  * @returns {string}
  *  the specified Date formatted as YYYY-MM-DD
  */
-export function asDateString(date: any) {
+export function asDateString(date: Date) {
   return `${date.getFullYear().toString(10)}-${(date.getMonth() + 1)
     .toString(10)
     .padStart(2, "0")}-${date.getDate().toString(10).padStart(2, "0")}`;
@@ -40,12 +40,12 @@ export function today() {
   return asDateString(new Date());
 }
 
-export function getNextSeven(currentDate: any) {
+export function getNextSeven(currentDate: string) {
   const nextSeven = [];
   let [year, month, day] = currentDate.split("-");
-  month -= 1;
+  month = String(Number(month) - 1);
   for (let i = 0; i < 7; i++) {
-    const date = new Date(year, month, day);
+    const date = new Date(Number(year), Number(month), Number(day));
     date.setDate(date.getDate() + i);
     date.setMonth(date.getMonth());
     const weekday = days[date.getDay()];
