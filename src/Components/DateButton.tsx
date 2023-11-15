@@ -1,7 +1,7 @@
-import type { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import React from "react";
 import { MovieDate } from "~/Types/dateType";
 import { today } from "~/utils/dates";
+import type { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 
 type DateButtonProps = {
   date: MovieDate;
@@ -18,7 +18,7 @@ const DateButton: React.FC<DateButtonProps> = ({
 }: DateButtonProps) => {
   return (
     <div
-      className={`movieTimes mr-1 flex w-10 flex-col rounded-md border border-solid border-gray-300 md:mr-3 md:h-20 md:w-16 bg-white ${
+      className={`movieTimes mr-1 flex w-10 flex-col rounded-md border border-solid border-gray-300 bg-white md:mr-3 md:h-20 md:w-16 ${
         queryDate
           ? date.dateString === queryDate
             ? "active-movie-date"

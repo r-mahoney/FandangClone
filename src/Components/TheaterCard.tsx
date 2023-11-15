@@ -18,8 +18,7 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ cinema_name, movies }) => {
         <p className="text-xl font-bold text-white">{cinema_name}</p>
         {/* <p className="text-sm text-[#929292]">{theater.Address}</p> */}
       </div>
-      {movies &&
-        movies.map((movie, idx) => <MovieCard movie={movie} key={idx} />)}
+      {movies?.map((movie, idx) => <MovieCard movie={movie} key={idx} />)}
     </>
   );
 };

@@ -4,14 +4,13 @@ import DateButton from "~/Components/DateButton";
 import TheaterCard from "~/Components/TheaterCard";
 import { api } from "~/utils/api";
 import { getNextSeven, today } from "~/utils/dates";
-import getTheaters from "~/utils/getTheaters";
 
 type indexProps = {};
 
 const index: React.FC<indexProps> = () => {
   const movieDates = getNextSeven(today());
   const router = useRouter();
-  const queryDate = router.query.date || today();
+  const queryDate = router.query.date ?? today();
   const theatersData = api.theater.getTheaters.useQuery({
     date: queryDate as string,
   }).data;

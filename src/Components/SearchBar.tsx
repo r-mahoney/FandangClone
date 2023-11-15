@@ -1,13 +1,11 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 
-type SearchBarProps = {};
-
-const SearchBar: React.FC<SearchBarProps> = () => {
+const SearchBar: React.FC = () => {
   const [input, setInput] = useState("");
   const router = useRouter();
 
-  function handleSubmit(e: any) {
+  function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
 
     const path = router.pathname;

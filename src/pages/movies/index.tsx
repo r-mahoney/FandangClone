@@ -1,12 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import FilmCard from "~/Components/FilmCard";
-import MoviesContext from "~/Contexts/MovieContext";
 import { api } from "~/utils/api";
 
-type indexProps = {};
-
-const index: React.FC<indexProps> = () => {
-  // const { movies } = useContext(MoviesContext);
+const index: React.FC = () => {
   const movies = api.movie.getMovies.useQuery().data
   return (
     <>

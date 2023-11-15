@@ -1,10 +1,9 @@
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Comments from "~/Components/Comments";
 import DateButton from "~/Components/DateButton";
 import FilmTimes from "~/Components/FilmTimes";
 import SingleFilmPage from "~/Components/SingleFilmPage";
-import MoviesContext from "~/Contexts/MovieContext";
 import { Film } from "~/Types/movieTypes";
 import { api } from "~/utils/api";
 import { getNextSeven, today } from "~/utils/dates";

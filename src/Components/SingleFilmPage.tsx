@@ -63,7 +63,7 @@ const SingleFilmPage: React.FC<SingleFilmPageProps> = ({ film }) => {
         </div>
         <div className="my-4 flex justify-between">
           <h1 className="text-lg font-bold uppercase">{film.film_name}</h1>
-          <p>Community Rating: {avgRating?.toFixed(1) || "No Ratings Yet"}</p>
+          <p>Community Rating: {avgRating?.toFixed(1) ?? "No Ratings Yet"}</p>
         </div>
         <p
           className={

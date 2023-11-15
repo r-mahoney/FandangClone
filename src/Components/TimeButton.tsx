@@ -17,7 +17,7 @@ const TimeButton: React.FC<TimeButtonProps> = ({
   const date = new Date();
   const now = date.getHours() + ":" + date.getMinutes();
   const router = useRouter();
-  const queryDate = router.query.date || today();
+  const queryDate = router.query.date ?? today();
   function normalizeTime(time: string) {
     const pm = !!time.match(/p$/);
     const hours = time.split(":")[0];

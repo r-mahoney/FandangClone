@@ -1,11 +1,8 @@
-import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import FilmCard from "~/Components/FilmCard";
 import { Film } from "~/Types/movieTypes";
-import getOptions from "~/utils/headers";
 import { api } from "~/utils/api";
-// import getDefaultMovies from "~/utils/defaultMovies";
 
 type indexProps = {
   geolocation: string;
