@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import FilmCard from "~/Components/FilmCard";
 import { Film } from "~/Types/movieTypes";
 import getOptions from "~/utils/headers";
-import getDefaultMovies from "~/utils/defaultMovies";
+import { api } from "~/utils/api";
+// import getDefaultMovies from "~/utils/defaultMovies";
 
 type indexProps = {
   geolocation: string;
@@ -15,35 +16,21 @@ const index: React.FC<indexProps> = ({ geolocation }) => {
   const [films, setFilms] = useState<Film[]>([]);
   const searchparams = new URLSearchParams(params);
   const search = searchparams.get("movie");
-  const options = getOptions();
-  const movies = getDefaultMovies();
+  const movies = api.movie.getMovies.useQuery().data;
 
   useEffect(() => {
     if (!search) return;
-    // (async function () {
-    //   try {
-    //     const response = await fetch(
-    //       `https://api-gate2.movieglu.com/filmLiveSearch/?query=${search
-    //         .split(" ")
-    //         .join("+")}&n=5`,
-    //       options,
-    //     );
-    //     const data = await response.json();
-    //     setFilms(data.films);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // })();
+    if (!movies) return;
 
-    const searchResults = movies.filter(
+    const searchResults = movies!.filter(
       (movie) => movie.film_name?.toLowerCase().match(new RegExp(search)),
     );
     setFilms(searchResults as []);
-  }, [search]);
+  }, [search, movies]);
 
   return (
     <div className="body">
-      <div className="flex p-4 flex-wrap">
+      <div className="flex flex-wrap p-4">
         {search &&
           films &&
           films.map((film) => (
