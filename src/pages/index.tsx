@@ -1,11 +1,12 @@
 import Head from "next/head";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
-  if (typeof window) {
-    const router = useRouter();
+  const router = useRouter();
+  useEffect(() => {
     router.push("/movies");
-  }
+  }, []);
   return (
     <>
       <Head>
