@@ -36,8 +36,9 @@ export const SingleComment: React.FC<SingleCommentProps> = ({
     const day = comment.createdAt.getDate();
     const month = comment.createdAt.getMonth();
     const year = comment.createdAt.getFullYear();
+    const minutes = comment.createdAt.getMinutes() < 10 ? "0" + comment.createdAt.getMinutes() : comment.createdAt.getMinutes()
     const time =
-      comment.createdAt.getHours() + ":" + comment.createdAt.getMinutes();
+      comment.createdAt.getHours() + ":" + minutes;
 
     return `${day} ${monthString[month]} ${year} at ${time}`;
   }
